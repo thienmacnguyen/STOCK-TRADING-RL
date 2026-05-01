@@ -16,10 +16,10 @@ The system uses a Deep Q-Network (DQN) to learn buy, sell, and hold decisions th
 ```
 stock-trading-rl/
 │
-├── agent.py
-├── utils.py
-├── train.py
-├── test.py
+├── agent.py                    # DQN agent (model, replay buffer, action selection)
+├── utils.py                    # Data processing & feature engineering
+├── train.py                    # Training loop
+├── test.py                     # Evaluation & trading simulation
 ├── requirements.txt
 ├── README.md
 ├── .gitignore
