@@ -12,28 +12,8 @@ The system uses a Deep Q-Network (DQN) to learn buy, sell, and hold decisions th
 - Data preprocessing and normalization
 - Performance comparison with buy-and-hold strategy
 
-## Dataset
-The dataset is split into:
-- Train set (train.xlsx)
-- Validation set (val.xlsx)
-- Test set (test.xlsx)
-
-## How to run
-pip install -r requirements.txt
-python train.py
-python test.py
-
-## Results
-- Achieved better cumulative return than the buy-and-hold baseline during simulation
-- Demonstrated consistent learning behavior across multiple training episodes
-- Processed 3,000+ trading sessions (QCOM dataset from NASDAQ)
-
-## Tech Stack
-- Python
-- PyTorch
-- Pandas, NumPy
-
 ## Structure
+```
 stock-trading-rl/
 │
 ├── agent.py
@@ -48,3 +28,26 @@ stock-trading-rl/
     ├── train.xlsx
     ├── test.xlsx
     └── val.xlsx
+```
+
+## Dataset
+The dataset is split into:
+- Train set (train.xlsx)
+- Validation set (val.xlsx)
+- Test set (test.xlsx)
+
+## How to run
+```
+pip install -r requirements.txt
+python train.py
+python test.py
+```
+## Results
+- Achieved better cumulative return than the buy-and-hold baseline during simulation
+- Demonstrated consistent learning behavior across multiple training episodes
+- Processed 3,000+ trading sessions (QCOM dataset from NASDAQ)
+
+## Tech Stack
+- Python
+- TensorFlow / Keras
+- Pandas, NumPy
