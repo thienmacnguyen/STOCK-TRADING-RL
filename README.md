@@ -32,3 +32,19 @@ python test.py
 - Python
 - PyTorch
 - Pandas, NumPy
+
+## Structure
+stock-trading-rl/
+│
+├── agent.py
+├── utils.py
+├── train.py
+├── test.py
+├── requirements.txt
+├── README.md
+├── .gitignore
+│
+└── data/
+    ├── train.xlsx
+    ├── test.xlsx
+    └── val.xlsx
