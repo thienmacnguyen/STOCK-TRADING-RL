@@ -3,7 +3,7 @@ from utils import getState, getStockData, formatPrice
 import numpy as np
 
 window_size = 10
-data = getStockData("data/test.xlsx")
+data = getStockData("data/test.csv")
 l = len(data) - 1
 
 agent = Agent(window_size)
