@@ -5,7 +5,7 @@ window_size = 10
 episode_count = 10
 batch_size = 32
 
-data = getStockData("data/train.xlsx")
+data = getStockData("data/train.csv")
 l = len(data) - 1
 
 agent = Agent(window_size)
