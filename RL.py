@@ -248,11 +248,11 @@ batch_size = 32
 #An episode represents a complete pass over the data.
 episode_count = 1000
 
-# Khởi tạo biến lưu trữ episode với total_profit cao nhất
+# Create best_episode to save episode have highest profit
 highest_profit = float('-inf')
 best_episode = -1
 
-# Tạo danh sách để lưu trữ thông tin số giao dịch và total_profit của mỗi tập
+# Create transaction_counts to save info about each transactions
 transaction_counts = []
 
 for e in range(episode_count + 1):
@@ -288,23 +288,23 @@ for e in range(episode_count + 1):
             print("--------------------------------")
             plot_behavior(data, states_buy, states_sell, total_profit)
 
-    # Cập nhật tập với total_profit cao nhất
+    # Update episode has highest profit
     if total_profit > highest_profit:
         highest_profit = total_profit
         best_episode = e
 
-    # Tính tổng số giao dịch trong tập hiện tại và lưu trữ trong danh sách
+    # Count total transactions
     transaction_count = len(states_buy) + len(states_sell)
     transaction_counts.append((e, transaction_count, total_profit))
 
-    # Lưu mô hình sau mỗi 2 tập
+    # Save model(2ep)
     if e % 2 == 0:
         agent.model.save("E:/checkpoint/INTU/model_ep" + str(e) + ".keras")
 
-# Sau khi hoàn tất tất cả các tập huấn luyện, in ra tập có total_profit cao nhất
+# show highest profit
 print(f"The episode with the highest profit is {best_episode} with a profit of {formatPrice(highest_profit)}")
 
-# Sắp xếp transaction_counts theo số lượng giao dịch giảm dần và in ra top 10
+# Sort transaction_counts with descending and show top 10
 top_transactions = sorted(transaction_counts, key=lambda x: x[1], reverse=True)[:10]
 print("\nTop 10 episodes with the most transactions:")
 for episode, count, profit in top_transactions:
