@@ -108,10 +108,6 @@ X_train, X_test = X[0:train_size], X[train_size:len(X)]
 
 len(X_test)
 
-#train_size = int(len(X))
-#test_size = int(len(Y))
-
-#X_train, X_test = X[0:train_size], Y[0:test_size]
 
 """# Implementation Steps For Designing a Reinforcement learning model
 •	Importing Libraries
@@ -171,23 +167,6 @@ class Agent:
         options = self.model.predict(state)
         return np.argmax(options[0])
 
-
-    # def expReplay(self, batch_size):
-    #     mini_batch = []
-    #     l = len(self.memory)
-    #     for i in range(l - batch_size + 1, l):
-    #         mini_batch.append(self.memory[i])
-
-    #     for state, action, reward, next_state, done in mini_batch:
-    #         target = reward
-    #         if not done:
-    #             target = reward + self.gamma * np.amax(self.model.predict(next_state)[0])
-    #         target_f = self.model.predict(state)
-    #         target_f[0][action] = target
-    #         self.model.fit(state, target_f, epochs=1, verbose=0)
-
-    #     if self.epsilon > self.epsilon_min:
-    #         self.epsilon *= self.epsilon_decay
 
 #Helper functions
 import numpy as np
@@ -365,9 +344,6 @@ if hasattr(model, "_get_metadata"):
 else:
     print("\nNo metadata found.")
 
-# Save model weights to a separate .h5 file if you want to inspect it directly
-#model.save_weights('model_weights_extracted.weights.h5') # Changed the filename to include .weights.h5
-#print("\nModel weights saved as 'model_weights_extracted.weights.h5'") # Updated the print statement to reflect the filename change
 
 """# Testing"""
 
@@ -490,11 +466,6 @@ baseline_profit = test_data[-1] - test_data[0]  # Profit from buy and hold strat
 baseline_sharpe_ratio = 0  # Adjust this based on your risk-free rate
 baseline_win_rate = 0  # No trades in the baseline strategy
 
-# # Print baseline metrics
-# print("Baseline Profit: " + formatPrice(baseline_profit))
-# print("Baseline Sharpe Ratio: " + str(baseline_sharpe_ratio))
-# print("Baseline Win Rate: " + str(baseline_win_rate))
-
 # Print metrics
 print("------------------------------------------")
 print("Total Profit: " + formatPrice(total_profit))
@@ -543,53 +514,53 @@ if isinstance(test_data, list):
     test_data = pd.DataFrame(test_data, columns=['Close'])
 test_data['label'] = test_data['Close'].diff().apply(lambda x: 'buy' if x > 0 else ('sell' if x < 0 else 'hold'))
 
-# # Assuming 'predicted_prices' and 'acb_label' DataFrames are already defined
-# import pandas as pd
+# Assuming 'predicted_prices' and 'acb_label' DataFrames are already defined
+import pandas as pd
 
-# # Convert 'Date' column to datetime objects
-# predicted_prices['Date'] = pd.to_datetime(predicted_prices['Date'])
-# test['Date'] = pd.to_datetime(test['Date'])
+# Convert 'Date' column to datetime objects
+predicted_prices['Date'] = pd.to_datetime(predicted_prices['Date'])
+test['Date'] = pd.to_datetime(test['Date'])
 
-# # Merge the DataFrames based on the 'Date' column
-# merged_df = pd.merge(predicted_prices, test, on='Date', how='inner')
+# Merge the DataFrames based on the 'Date' column
+merged_df = pd.merge(predicted_prices, test, on='Date', how='inner')
 
-# # Calculate accuracy based on 'Buy/Sell' and 'Label' columns
-# correct_predictions = 0
-# total_predictions = 0
+# Calculate accuracy based on 'Buy/Sell' and 'Label' columns
+correct_predictions = 0
+total_predictions = 0
 
-# for index, row in merged_df.iterrows():
-#     if row['Buy/Sell'] == 'Buy' and row['label'] == "buy":
-#         correct_predictions += 1
-#     elif row['Buy/Sell'] == 'Sell' and row['label'] == 'sell':
-#         correct_predictions += 1
-#     total_predictions += 1
+for index, row in merged_df.iterrows():
+    if row['Buy/Sell'] == 'Buy' and row['label'] == "buy":
+        correct_predictions += 1
+    elif row['Buy/Sell'] == 'Sell' and row['label'] == 'sell':
+        correct_predictions += 1
+    total_predictions += 1
 
-# accuracy = (correct_predictions / total_predictions) * 100 if total_predictions > 0 else 0
-# print(f"Accuracy based on labels: {accuracy:.2f}%")
+accuracy = (correct_predictions / total_predictions) * 100 if total_predictions > 0 else 0
+print(f"Accuracy based on labels: {accuracy:.2f}%")
 
-# # Print the merged DataFrame for verification
-# merged_df
+# Print the merged DataFrame for verification
+merged_df
 
-# # Assuming 'merged_df' DataFrame is already created as shown in the original code.
+# Assuming 'merged_df' DataFrame is already created as shown in the original code.
 
-# # Filter the DataFrame to show only incorrect predictions
-# incorrect_predictions = merged_df[
-#     (merged_df['Buy/Sell'] == 'Buy') & (merged_df['label'] != 'buy') |
-#     (merged_df['Buy/Sell'] == 'Sell') & (merged_df['label'] != 'sell')
-# ]
+# Filter the DataFrame to show only incorrect predictions
+incorrect_predictions = merged_df[
+    (merged_df['Buy/Sell'] == 'Buy') & (merged_df['label'] != 'buy') |
+    (merged_df['Buy/Sell'] == 'Sell') & (merged_df['label'] != 'sell')
+]
 
-# print("Incorrect Predictions:")
-# incorrect_predictions
+print("Incorrect Predictions:")
+incorrect_predictions
 
-# from sklearn.metrics import f1_score
+from sklearn.metrics import f1_score
 
-# # Assuming 'merged_df' DataFrame is already created as shown in the original code.
+# Assuming 'merged_df' DataFrame is already created as shown in the original code.
 
-# # Extract true labels and predicted labels
-# true_labels = merged_df['label'].map({'buy': 1, 'sell': 0, 'hold': 2})  # Map labels to numerical values
-# predicted_labels = merged_df['Buy/Sell'].map({'Buy': 1, 'Sell': 0})  # Map predictions to numerical values
+# Extract true labels and predicted labels
+true_labels = merged_df['label'].map({'buy': 1, 'sell': 0, 'hold': 2})  # Map labels to numerical values
+predicted_labels = merged_df['Buy/Sell'].map({'Buy': 1, 'Sell': 0})  # Map predictions to numerical values
 
-# # Calculate F1-score (ignoring 'hold' predictions)
-# f1 = f1_score(true_labels, predicted_labels, average='weighted')
+# Calculate F1-score (ignoring 'hold' predictions)
+f1 = f1_score(true_labels, predicted_labels, average='weighted')
 
-# print(f"F1-score on training data: {f1:.4f}")
+print(f"F1-score on training data: {f1:.4f}")
