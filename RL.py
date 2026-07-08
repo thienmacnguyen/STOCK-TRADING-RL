@@ -360,8 +360,7 @@ done = False       # Indicates whether the evaluation is complete or not.
 states_sell_test = []
 states_buy_test = []
 #Get the trained model
-#model_name = "/content/drive/MyDrive/REL301m/checkpoint/data_new/FPT_new/model_ep" + str(e) + ".keras"
-model_name = "E:/checkpoint/INTU/model_ep106" + ".keras"
+model_name = "E:/checkpoint/INTU/model_ep106" + str(e) + ".keras"
 agent = Agent(window_size, is_eval, model_name)
 state = getState(data, 0, window_size + 1)
 total_profit = 0
